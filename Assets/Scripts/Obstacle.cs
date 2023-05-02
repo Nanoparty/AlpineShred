@@ -5,6 +5,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] float speed = 5f;
+    public float totalSpeed = 0;
 
     [SerializeField] int damage = 1;
 
@@ -16,9 +17,14 @@ public class Obstacle : MonoBehaviour
     {
         Vector3 updatePos = transform.position;
 
-        updatePos.z += speed * Time.deltaTime;
+        updatePos.z += totalSpeed * Time.deltaTime;
 
         transform.position = updatePos;
+    }
+
+    public void SetSpeed(float increase)
+    {
+        totalSpeed = speed + increase;
     }
 
     private void OnTriggerEnter(Collider other)
