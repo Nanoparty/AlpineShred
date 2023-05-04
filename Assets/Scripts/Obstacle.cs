@@ -36,7 +36,7 @@ public class Obstacle : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Hit Player");
+            //Debug.Log("Hit Player");
             GetComponent<Rigidbody>().AddForceAtPosition(new Vector3(
                 Random.Range(-XCollisionForce, XCollisionForce),
                 YCollisionForce,

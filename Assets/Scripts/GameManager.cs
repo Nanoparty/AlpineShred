@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
         float newFrequency = (1.0f / (5.0f * (float)totalSeconds)) * 100f;
 
-        Debug.Log($"Frequency= 1 / ( 5 * {totalSeconds}) = {newFrequency}");
+        //Debug.Log($"Frequency= 1 / ( 5 * {totalSeconds}) = {newFrequency}");
         ObstacleSpawner spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<ObstacleSpawner>();
         spawner.SpawnFrequency = newFrequency;
 
