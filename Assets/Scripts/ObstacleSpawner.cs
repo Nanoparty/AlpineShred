@@ -18,14 +18,17 @@ public class ObstacleSpawner : MonoBehaviour
 
     private bool _canSpawn = true;
 
+    private GameManager gm;
+
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     private void Update()
     {
-        if (_canSpawn)
+        if (_canSpawn && !gm.paused && !gm.GameOver)
         {
             _canSpawn = false;
             StartCoroutine(SpawnRandom());

@@ -2318,6 +2318,14 @@ MonoBehaviour:
   speed: 10
   health: 3
   score: 0
+  maxPitch: 15
+  maxRoll: 15
+  pitchSpeed: 1
+  rollSpeed: 1
+  returnSpeed: 0.5
+  XCollisionForce: 500
+  YCollisionForce: 500
+  ZCollisionForce: 100
   HorizontalLimits: {x: -4, y: 4}
   ScoreText: {fileID: 0}
   HealthText: {fileID: 0}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] float returnSpeed = 0.5f;
 
+    [SerializeField] float XCollisionForce = 5f;
+    [SerializeField] float YCollisionForce = 5f;
+    [SerializeField] float ZCollisionForce = 5f;
+
     [SerializeField] public Vector2 HorizontalLimits;
 
     public TMP_Text ScoreText;
@@ -24,42 +29,75 @@ public class Player : MonoBehaviour
 
     private Rigidbody rb;
 
+    private GameManager gm;
+
+    private bool dead;
+    private bool paused;
+
+    private Vector3 tempVel;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+    }
+
+    public void Pause()
+    {
+        paused = true;
+        tempVel = rb.velocity;
+        rb.constraints |= RigidbodyConstraints.FreezePositionX;
+    }
+
+    public void Unpause()
+    {
+        paused = false;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
+        rb.velocity = tempVel;
     }
 
     private void Update()
     {
+        if (paused)
+        {
+
+            return;
+        }
+
+        // Check Death
+        if (health <= 0)
+        {
+            gm.GameOver = true;
+            dead = true;
+
+            rb.constraints = RigidbodyConstraints.None;
+
+            GetComponent<Rigidbody>().AddForceAtPosition(new Vector3(
+                Random.Range(-XCollisionForce, XCollisionForce),
+                YCollisionForce,
+                ZCollisionForce),
+                new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z));
+        }
+
         Vector3 updatePosition = transform.position;
         Vector3 updateVelocity = rb.velocity;
         Vector3 updateRotation = transform.Find("Model").transform.rotation.eulerAngles;
-
-        //Debug.Log("Starting Rotation: " + updateRotation);
 
         if (updateRotation.y > 180) updateRotation.y = -(360 - updateRotation.y);
         if (updateRotation.z > 180) updateRotation.z = -(360 - updateRotation.z);
 
         if (Input.GetKey(KeyCode.A)) {
             //Move Left
-            //updatePosition.x -= speed * Time.deltaTime;
-            //rb.AddForce(new Vector3(-speed * Time.deltaTime, 0, 0));
             updateVelocity.x -= speed * Time.deltaTime;
             updateRotation.y += pitchSpeed * Time.deltaTime;
             updateRotation.z += rollSpeed * Time.deltaTime;
-
-            //Debug.Log("INPUT A");
         }
         if (Input.GetKey(KeyCode.D))
         {
             //Move Right
-            //updatePosition.x += speed * Time.deltaTime;
-            //rb.AddForce(new Vector3(speed * Time.deltaTime, 0, 0));
             updateVelocity.x += speed * Time.deltaTime;
             updateRotation.y += -pitchSpeed * Time.deltaTime;
             updateRotation.z += -rollSpeed * Time.deltaTime;
-
-            //Debug.Log("INPUT D");
         }
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) 
         {
@@ -67,43 +105,21 @@ public class Player : MonoBehaviour
             if (updateRotation.y > 0) updateRotation.y -= Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
             if (updateRotation.z > 0) updateRotation.z -= Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
             if (updateRotation.z < 0) updateRotation.z += Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
-
-            //Debug.Log("NO INPUT");
         }
 
         //Restrict Movement Beyond Limits
-        if (updatePosition.x > HorizontalLimits.y)
-        {
-            updatePosition.x = HorizontalLimits.y;
-            //if (rb.velocity.x > 0) rb.velocity = new Vector3(0,0,0);
-        }
-        if (updatePosition.x < HorizontalLimits.x)
-        {
-            updatePosition.x = HorizontalLimits.x;
-            //if (rb.velocity.x < 0) rb.velocity = new Vector3(0, 0, 0);
-        }
+        if (updatePosition.x > HorizontalLimits.y) updatePosition.x = HorizontalLimits.y;
+        if (updatePosition.x < HorizontalLimits.x) updatePosition.x = HorizontalLimits.x;
 
-        if (updateRotation.y > maxPitch)
-        {
-            updateRotation.y = maxPitch;
-            //Debug.Log("Max Pitch Positive");
-        }
-        if (updateRotation.y < -maxPitch)
-        {
-            updateRotation.y = -maxPitch;
-            //Debug.Log("Max Pitch Negative");
-        }
+        if (updateRotation.y > maxPitch) updateRotation.y = maxPitch;
+        if (updateRotation.y < -maxPitch) updateRotation.y = -maxPitch;
 
         if (updateRotation.z > maxRoll) updateRotation.z = maxRoll;
         if (updateRotation.z < -maxRoll) updateRotation.z = -maxRoll;
 
-        //Set Updated Position
-        //transform.position = updatePosition;
+        // Update Velocity and Rotation
         rb.velocity = updateVelocity;
-        //Debug.Log("Ending Rotation: " + updateRotation);
         transform.Find("Model").transform.rotation = Quaternion.Euler(updateRotation);
-
-
 
         ScoreText.text = "Score:" + score.ToString();
         HealthText.text = "Health:" + health.ToString();

@@ -16,12 +16,15 @@ public class SnowTrail : MonoBehaviour
 
     Queue<float> spawnTimes = new Queue<float>();
 
+    private GameManager gm;
+
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
         line.useWorldSpace = true;
         points = new List<Vector3>() { transform.position };
         line.SetPositions(points.ToArray());
+        gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     private void AddPoint(Vector3 position)
@@ -38,6 +41,8 @@ public class SnowTrail : MonoBehaviour
 
     private void Update()
     {
+        if (gm.paused) return;
+
         while (spawnTimes.Count > 0 && spawnTimes.Peek() + lifetime < Time.time)
         {
             RemovePoint();

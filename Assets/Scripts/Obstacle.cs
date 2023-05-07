@@ -13,8 +13,19 @@ public class Obstacle : MonoBehaviour
     [SerializeField] float YCollisionForce = 5f;
     [SerializeField] float ZCollisionForce = 5f;
 
+    private GameManager gm;
+    private ObstacleSpawner obstacleSpawner;
+
+    private void Awake()
+    {
+        gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        obstacleSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<ObstacleSpawner>();
+    }
+
     private void Update()
     {
+        if (gm.GameOver || gm.paused) return;
+
         Vector3 updatePos = transform.position;
 
         updatePos.z += totalSpeed * Time.deltaTime;
@@ -24,7 +35,7 @@ public class Obstacle : MonoBehaviour
 
     public void SetSpeed(float increase)
     {
-        totalSpeed = speed + increase;
+        totalSpeed = speed + obstacleSpawner.SpeedIncrease;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,7 +45,7 @@ public class Obstacle : MonoBehaviour
             //Destroy(gameObject);
         }
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<Player>().health > 0)
         {
             //Debug.Log("Hit Player");
             GetComponent<Rigidbody>().AddForceAtPosition(new Vector3(
