@@ -28,8 +28,15 @@ public class MenuManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera OptionsCamera;
     [SerializeField] CinemachineVirtualCamera ScoresCamera;
 
+    private void Awake()
+    {
+        Data.LoadPrefs();
+    }
+
     private void Start()
     {
+        SoundManager.Instance.PlayTitleMusic();
+
         OptionsCamera.gameObject.SetActive(false);
         ScoresCamera.gameObject.SetActive(false);
 
@@ -43,14 +50,22 @@ public class MenuManager : MonoBehaviour
 
         OptionsButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
             MainMenu.SetActive(false);
             OptionsMenu.SetActive(true);
             OptionsCamera.gameObject.SetActive(true);
             MenuCamera.gameObject.SetActive(false);
+
+            SetOptionsValues();
         });
 
         ScoresButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
             MainMenu.SetActive(false);
             ScoresMenu.SetActive(true);
             ScoresCamera.gameObject.SetActive(true);
@@ -59,31 +74,39 @@ public class MenuManager : MonoBehaviour
 
         QuitButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayClick();
+
             Application.Quit();
         });
 
         Music.onValueChanged.AddListener((value) =>
         {
-
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.UpdatePlaying();
         });
 
         Sound.onValueChanged.AddListener((value) =>
         {
-
+            SoundManager.Instance.PlayClick();
         });
 
         MusicVolume.onValueChanged.AddListener((value) =>
         {
-
+            SoundManager.Instance.UpdateMusicVolume();
         });
 
         SoundVolume.onValueChanged.AddListener((value) =>
         {
-
+            SoundManager.Instance.UpdateSoundVolume();
         });
 
         ApplyButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
+            SaveOptionsValues();
+
             MenuCamera.gameObject.SetActive(true);
             OptionsCamera.gameObject.SetActive(false);
             OptionsMenu.SetActive(false);
@@ -92,10 +115,32 @@ public class MenuManager : MonoBehaviour
 
         CloseButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
             MenuCamera.gameObject.SetActive(true);
             ScoresCamera.gameObject.SetActive(false);
             ScoresMenu.SetActive(false);
             MainMenu.SetActive(true);
         });
+
+    }
+
+    private void SetOptionsValues()
+    {
+        Music.isOn = Data.Music;
+        Sound.isOn = Data.Sound;
+
+        MusicVolume.value = Data.MusicVolume;
+        SoundVolume.value = Data.SoundVolume;
+    }
+
+    private void SaveOptionsValues()
+    {
+        Data.Music = Music.isOn;
+        Data.Sound = Sound.isOn;
+        Data.MusicVolume = MusicVolume.value;
+        Data.SoundVolume = SoundVolume.value;
+        Data.SavePrefs();
     }
 }
