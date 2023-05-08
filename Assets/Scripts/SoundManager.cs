@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     AudioSource soundSource;
 
     public AudioClip menuMusic;
+    public AudioClip gameMusic;
 
     public AudioClip click;
     public AudioClip whoosh;
@@ -35,12 +36,22 @@ public class SoundManager : MonoBehaviour
 
     public void UpdateMusicVolume()
     {
-        musicSource.volume = Data.MusicVolume * 0.05f;
+        musicSource.volume = Data.MusicVolume;
     }
 
     public void UpdateSoundVolume()
     {
         soundSource.volume = Data.SoundVolume;
+    }
+
+    public void UpdateMusicVolume(float v)
+    {
+        musicSource.volume = v;
+    }
+
+    public void UpdateSoundVolume(float v)
+    {
+        soundSource.volume = v;
     }
 
     public void UpdatePlaying()
@@ -59,8 +70,18 @@ public class SoundManager : MonoBehaviour
     {
         if (!Data.Music) return;
         if (musicSource.clip == menuMusic && musicSource.isPlaying) return;
-        musicSource.volume = Data.MusicVolume * 0.05f;
+        musicSource.volume = Data.MusicVolume;
         musicSource.clip = menuMusic;
+        musicSource.loop = true;
+        musicSource.Play();
+    }
+
+    public void PlayGameMusic()
+    {
+        if (!Data.Music) return;
+        if (musicSource.clip == gameMusic && musicSource.isPlaying) return;
+        musicSource.volume = Data.MusicVolume;
+        musicSource.clip = gameMusic;
         musicSource.loop = true;
         musicSource.Play();
     }

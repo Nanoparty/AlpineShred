@@ -81,31 +81,37 @@ public class MenuManager : MonoBehaviour
 
         Music.onValueChanged.AddListener((value) =>
         {
+            Data.Music = Music.isOn;
+            SoundManager.Instance.UpdatePlaying();
             SoundManager.Instance.PlayClick();
             SoundManager.Instance.UpdatePlaying();
         });
 
         Sound.onValueChanged.AddListener((value) =>
         {
+            Data.Sound = Sound.isOn;
             SoundManager.Instance.PlayClick();
         });
 
         MusicVolume.onValueChanged.AddListener((value) =>
         {
-            SoundManager.Instance.UpdateMusicVolume();
+            SoundManager.Instance.UpdateMusicVolume(MusicVolume.value);
         });
 
         SoundVolume.onValueChanged.AddListener((value) =>
         {
-            SoundManager.Instance.UpdateSoundVolume();
+            SoundManager.Instance.UpdateSoundVolume(SoundVolume.value);
         });
 
         ApplyButton.onClick.AddListener(() =>
         {
+            SaveOptionsValues();
+
+            SoundManager.Instance.UpdateMusicVolume();
+            SoundManager.Instance.UpdateSoundVolume();
+
             SoundManager.Instance.PlayClick();
             SoundManager.Instance.PlayWhoosh();
-
-            SaveOptionsValues();
 
             MenuCamera.gameObject.SetActive(true);
             OptionsCamera.gameObject.SetActive(false);

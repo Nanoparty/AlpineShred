@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.PlayGameMusic();
+
         startingTime = 0;
         GameOverWindow.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
