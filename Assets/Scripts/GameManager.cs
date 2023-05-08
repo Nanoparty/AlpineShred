@@ -53,8 +53,11 @@ public class GameManager : MonoBehaviour
                 GameOverWindow.transform.Find("Time").GetComponent<TMP_Text>().text = "TIME: " + min+ ":" + secText; 
                 GameOverWindow.transform.Find("Menu").GetComponent<Button>().onClick.AddListener(MenuListener);
                 GameOverWindow.transform.Find("Retry").GetComponent<Button>().onClick.AddListener(RetryListener);
-
-                Data.Scores.Add((player.score.ToString(), min + ":" + secText));
+                if (Data.Scores != null)
+                {
+                    Data.Scores.Add((player.score.ToString(), min + ":" + secText));
+                    Data.SaveScores();
+                }
             }
             return;
         }
@@ -89,7 +92,7 @@ public class GameManager : MonoBehaviour
         string secondsText = seconds.ToString();
         if (seconds < 10) secondsText = "0" + secondsText;
 
-        TimeText.text = $"{minutes}:{secondsText}";
+        TimeText.text = $"Time: {minutes}:{secondsText}";
 
         totalSeconds = seconds + minutes * 60;
         SetDifficulty();

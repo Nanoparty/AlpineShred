@@ -47,6 +47,7 @@ public class Obstacle : MonoBehaviour
 
         if (other.CompareTag("Player") && other.GetComponent<Player>().health > 0)
         {
+            SoundManager.Instance.PlayImpact();
             //Debug.Log("Hit Player");
             GetComponent<Rigidbody>().AddForceAtPosition(new Vector3(
                 Random.Range(-XCollisionForce, XCollisionForce),

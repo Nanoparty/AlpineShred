@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         Data.LoadPrefs();
+        Data.LoadScores();
     }
 
     private void Start()
@@ -42,7 +44,7 @@ public class MenuManager : MonoBehaviour
         SoundManager.Instance.PlayTitleMusic();
 
         if (Data.Scores == null) Data.Scores = new List<(string score, string time)>();
-        Data.Scores.Add(("5", "1:23"));
+        //Data.Scores.Add(("5", "1:23"));
 
         OptionsCamera.gameObject.SetActive(false);
         ScoresCamera.gameObject.SetActive(false);
@@ -163,12 +165,15 @@ public class MenuManager : MonoBehaviour
     private void PopulateScores()
     {
         List<(string, string)> allScores = Data.Scores ?? new List<(string score, string time)>();
+        var sortedScores = allScores.OrderByDescending(o => o.Item1).ToList();
 
-        foreach(var score in allScores)
+        int i = 1;
+        foreach(var score in sortedScores)
         {
             GameObject s = Instantiate(ScorePrefab);
             s.transform.SetParent(ScoresContent.transform, false);
-            s.GetComponentInChildren<TMP_Text>().text = "Score: " + score.Item1 + " ---  Time: " + score.Item2;
+            s.GetComponentInChildren<TMP_Text>().text = i +  ": Score: " + score.Item1 + " ---  Time: " + score.Item2;
+            i++;
         }
         
     }

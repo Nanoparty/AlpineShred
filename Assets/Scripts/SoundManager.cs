@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip click;
     public AudioClip whoosh;
+    public AudioClip impact;
 
     private void Awake()
     {
@@ -80,7 +81,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!Data.Music) return;
         if (musicSource.clip == gameMusic && musicSource.isPlaying) return;
-        musicSource.volume = Data.MusicVolume;
+        musicSource.volume = Data.MusicVolume * 0.10f;
         musicSource.clip = gameMusic;
         musicSource.loop = true;
         musicSource.Play();
@@ -100,6 +101,11 @@ public class SoundManager : MonoBehaviour
     {
         if (!Data.Sound) return;
         soundSource.PlayOneShot(whoosh, 0.5f);
+    }
+    public void PlayImpact()
+    {
+        if (!Data.Sound) return;
+        soundSource.PlayOneShot(impact, 0.5f);
     }
 
 }

@@ -47,9 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuMusic: {fileID: 8300000, guid: 68e203b4e1cad25499d8aa60c79ea516, type: 3}
-  gameMusic: {fileID: 8300000, guid: c3ade24299aabed4abfa8af26bd5f6ff, type: 3}
+  gameMusic: {fileID: 8300000, guid: 903a91ecc15317c46b56d527c1cf343c, type: 3}
   click: {fileID: 8300000, guid: a927880043bcf194e90bac35618b4f0a, type: 3}
   whoosh: {fileID: 8300000, guid: 867e75c1c3d8a6841bc798abc03a9900, type: 3}
+  impact: {fileID: 8300000, guid: 80d4e52c3f37b2b4fb4102acc08cdccf, type: 3}
 --- !u!82 &1322822970456267144
 AudioSource:
   m_ObjectHideFlags: 0

@@ -28,4 +28,16 @@ public static class Data
         PlayerPrefs.SetInt("Sound", Convert.ToInt32(Sound));
         PlayerPrefs.SetFloat("SoundVolume", SoundVolume);
     }
+
+    public static void SaveScores()
+    {
+        ES3.Save("Scores", Scores);
+    }
+
+    public static void LoadScores()
+    {
+        if (ES3.FileExists("SaveFile.es3")) {
+            Scores = (List<(string, string)>)ES3.Load("Scores");
+        }
+    }
 }
