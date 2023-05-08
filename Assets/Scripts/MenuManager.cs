@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,12 +22,15 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Button ApplyButton;
 
     [SerializeField] GameObject ScoresMenu;
+    [SerializeField] GameObject ScoresContent;
     [SerializeField] Button CloseButton;
 
     [SerializeField] Camera MainCamera;
     [SerializeField] CinemachineVirtualCamera MenuCamera;
     [SerializeField] CinemachineVirtualCamera OptionsCamera;
     [SerializeField] CinemachineVirtualCamera ScoresCamera;
+
+    [SerializeField] GameObject ScorePrefab;
 
     private void Awake()
     {
@@ -36,6 +40,9 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         SoundManager.Instance.PlayTitleMusic();
+
+        if (Data.Scores == null) Data.Scores = new List<(string score, string time)>();
+        Data.Scores.Add(("5", "1:23"));
 
         OptionsCamera.gameObject.SetActive(false);
         ScoresCamera.gameObject.SetActive(false);
@@ -71,6 +78,8 @@ public class MenuManager : MonoBehaviour
             ScoresMenu.SetActive(true);
             ScoresCamera.gameObject.SetActive(true);
             MenuCamera.gameObject.SetActive(false);
+
+            PopulateScores();
         });
 
         QuitButton.onClick.AddListener(() =>
@@ -149,5 +158,18 @@ public class MenuManager : MonoBehaviour
         Data.MusicVolume = MusicVolume.value;
         Data.SoundVolume = SoundVolume.value;
         Data.SavePrefs();
+    }
+
+    private void PopulateScores()
+    {
+        List<(string, string)> allScores = Data.Scores ?? new List<(string score, string time)>();
+
+        foreach(var score in allScores)
+        {
+            GameObject s = Instantiate(ScorePrefab);
+            s.transform.SetParent(ScoresContent.transform, false);
+            s.GetComponentInChildren<TMP_Text>().text = "Score: " + score.Item1 + " ---  Time: " + score.Item2;
+        }
+        
     }
 }

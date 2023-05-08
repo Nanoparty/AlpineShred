@@ -11,6 +11,8 @@ public static class Data
     public static bool Sound = true;
     public static float SoundVolume = 0.5f;
 
+    public static List<(string score, string time)> Scores;
+
     public static void LoadPrefs()
     {
         Music = PlayerPrefs.GetInt("Music") == 1;

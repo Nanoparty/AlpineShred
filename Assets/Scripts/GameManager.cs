@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
                 GameOverWindow.transform.Find("Time").GetComponent<TMP_Text>().text = "TIME: " + min+ ":" + secText; 
                 GameOverWindow.transform.Find("Menu").GetComponent<Button>().onClick.AddListener(MenuListener);
                 GameOverWindow.transform.Find("Retry").GetComponent<Button>().onClick.AddListener(RetryListener);
+
+                Data.Scores.Add((player.score.ToString(), min + ":" + secText));
             }
             return;
         }
