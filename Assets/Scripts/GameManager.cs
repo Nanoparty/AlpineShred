@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     private Player player;
 
+    private CircleTransition circleTransition;
+
     private void Start()
     {
         SoundManager.Instance.PlayGameMusic();
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
         startingTime = 0;
         GameOverWindow.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        circleTransition = GameObject.FindGameObjectWithTag("Transition").GetComponent<CircleTransition>();
     }
 
     private void Update()
@@ -105,12 +108,14 @@ public class GameManager : MonoBehaviour
 
     void MenuListener()
     {
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        circleTransition.StartMenuTransition();
+        //SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
     void RetryListener()
     {
-        SceneManager.LoadScene("Mountain", LoadSceneMode.Single);
+        circleTransition.StartGameTransition();
+        //SceneManager.LoadScene("Mountain", LoadSceneMode.Single);
     }
 
     void ResumeListener()

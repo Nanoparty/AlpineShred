@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Spawner
   - EnvSpawn
+  - Transition
   layers:
   - Default
   - TransparentFX

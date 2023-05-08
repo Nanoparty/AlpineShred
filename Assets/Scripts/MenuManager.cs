@@ -45,7 +45,8 @@ public class MenuManager : MonoBehaviour
 
         PlayButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Mountain", LoadSceneMode.Single);
+            //SceneManager.LoadScene("Mountain", LoadSceneMode.Single);
+            GameObject.FindGameObjectWithTag("Transition").GetComponent<CircleTransition>().StartGameTransition();
         });
 
         OptionsButton.onClick.AddListener(() =>
