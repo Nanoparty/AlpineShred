@@ -31,10 +31,10 @@ public class Leaderboards : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKey(KeyCode.Space))
-        //{
-        //    AddScore(15);
-        //}
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            LoadTopScores();
+        }
         //if (Input.GetKey(KeyCode.Alpha1))
         //{
         //    GetScores();
@@ -61,11 +61,22 @@ public class Leaderboards : MonoBehaviour
 
     public async void LoadRangeScores()
     {
+        //Debug.Log("Loading Online Scores");
+        //Data.CloseOnlineScores = new List<(string, double)>();
         var rangeLimit = 5;
         var scoresResponse = await LeaderboardsService.Instance
             .GetPlayerRangeAsync(LeaderboardId,
                 new GetPlayerRangeOptions { RangeLimit = rangeLimit }
             );
+
+        if (Data.CloseOnlineScores == null) Data.CloseOnlineScores = new List<(string, double)>();
+
+        var results = scoresResponse.Results;
+        for (int i = 0; i < results.Count; i++)
+        {
+            Debug.Log("RESULT " + i + ": => " + results[i].PlayerName);
+            Data.CloseOnlineScores.Add((results[i].PlayerName, results[i].Score));
+        }
     }
 
     public async void AddScore(double score)

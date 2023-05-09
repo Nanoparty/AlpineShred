@@ -150,11 +150,23 @@ public class MenuManager : MonoBehaviour
             MainMenu.SetActive(true);
         });
 
-        LocalButton.onClick.AddListener(PopulateLocalScores);
+        LocalButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayClick();
+            PopulateLocalScores();
+        });
 
-        OnlineButton.onClick.AddListener(PopulateOnlineScores);
+        OnlineButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayClick();
+            PopulateOnlineScores();
+        });
 
-        BestButton.onClick.AddListener(PopulateBestScores);
+        BestButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayClick();
+            PopulateBestScores();
+        });
 
     }
 
@@ -162,8 +174,10 @@ public class MenuManager : MonoBehaviour
     {
         if (waitingForOnlineScores)
         {
+            Debug.Log("Waiting for scores");
             if (Data.CloseOnlineScores != null)
             {
+                Debug.Log("Scores Found");
                 waitingForOnlineScores = false;
                 PopulateOnlineScores();
             }
@@ -209,6 +223,8 @@ public class MenuManager : MonoBehaviour
     {
         DestroyAllChildren(ScoresContent);
 
+        LocalButton.Select();
+
         List<(string, string)> allScores = Data.Scores ?? new List<(string score, string time)>();
         var sortedScores = allScores.OrderByDescending(o => o.Item1).ToList();
 
@@ -225,12 +241,12 @@ public class MenuManager : MonoBehaviour
 
     private void PopulateOnlineScores()
     {
-        Debug.Log("Populating Online Scores");
         DestroyAllChildren(ScoresContent);
 
         if (Data.CloseOnlineScores == null)
         {
-            //Leaderboards.Instance.LoadRangeScores();
+            Debug.Log("Online Scores Empty");
+            Leaderboards.Instance.LoadRangeScores();
 
             GameObject s = Instantiate(ScoresLoadingPrefab);
             s.transform.SetParent(ScoresContent.transform, false);
@@ -238,6 +254,8 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Online Scores Not Empty");
+
             List<(string, double)> onlineScores = Data.CloseOnlineScores;
             var sortedScores = onlineScores.OrderByDescending(o => o.Item2).ToList();
 
@@ -258,9 +276,9 @@ public class MenuManager : MonoBehaviour
     {
         DestroyAllChildren(ScoresContent);
 
-        if (Data.CloseOnlineScores == null)
+        if (Data.BestOnlineScores == null)
         {
-            //Leaderboards.Instance.LoadTopScores();
+            Leaderboards.Instance.LoadTopScores();
 
             GameObject s = Instantiate(ScoresLoadingPrefab);
             s.transform.SetParent(ScoresContent.transform, false);
