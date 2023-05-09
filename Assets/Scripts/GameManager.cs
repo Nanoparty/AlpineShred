@@ -57,6 +57,13 @@ public class GameManager : MonoBehaviour
                 {
                     Data.Scores.Add((player.score.ToString(), min + ":" + secText));
                     Data.SaveScores();
+
+                    if (Data.TopScore.score == null || Data.TopScore.time == null) { Data.TopScore = ("0", ""); }
+                    if (player.score > int.Parse(Data.TopScore.score)){
+                        Data.TopScore = (player.score.ToString(), min + ":" + secText);
+                        Leaderboards.Instance.AddScore(player.score);
+                        Data.HasChanged = true;
+                    }
                 }
             }
             return;

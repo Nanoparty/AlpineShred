@@ -12,6 +12,8 @@ public class Leaderboards : MonoBehaviour
     public static Leaderboards Instance;
 
     private const string LeaderboardId = "Leaderboard_1";
+    public string Username = "";
+    public string PlayerId = "";
 
     private async void Awake()
     {
@@ -25,15 +27,29 @@ public class Leaderboards : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        
         await UnityServices.InitializeAsync();
+
+        if (AuthenticationService.Instance.IsAuthorized) return;
+
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+        PlayerId = AuthenticationService.Instance.PlayerId;
+        //Debug.Log(JsonConvert.SerializeObject(playerInfoResponse));
+
+        //GetPlayerInfoAsync();
+
+        //await AuthenticationService.Instance.UpdatePlayerNameAsync("bill");
+
+        //Username = await AuthenticationService.Instance.GetPlayerNameAsync();
     }
 
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            LoadTopScores();
+            GetScores();
         }
         //if (Input.GetKey(KeyCode.Alpha1))
         //{
@@ -53,6 +69,7 @@ public class Leaderboards : MonoBehaviour
         var results = scoresResponse.Results;
         for (int i = 0; i < results.Count; i++)
         {
+            if (results[i].PlayerId == PlayerId) Username = results[i].PlayerName;
             Debug.Log("RESULT " + i + ": => " + results[i].PlayerName);
             Data.BestOnlineScores.Add((results[i].PlayerName, results[i].Score));
         }
@@ -74,6 +91,7 @@ public class Leaderboards : MonoBehaviour
         var results = scoresResponse.Results;
         for (int i = 0; i < results.Count; i++)
         {
+            if (results[i].PlayerId == PlayerId) Username = results[i].PlayerName;
             Debug.Log("RESULT " + i + ": => " + results[i].PlayerName);
             Data.CloseOnlineScores.Add((results[i].PlayerName, results[i].Score));
         }

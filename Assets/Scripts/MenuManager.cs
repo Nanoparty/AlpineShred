@@ -38,6 +38,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject OnlineScorePrefab;
     [SerializeField] GameObject ScoresLoadingPrefab;
 
+    [SerializeField] public Color PlayerScoreColor;
+
     private bool waitingForOnlineScores = false;
     private bool waitingForBestScores = false;
 
@@ -226,7 +228,7 @@ public class MenuManager : MonoBehaviour
         LocalButton.Select();
 
         List<(string, string)> allScores = Data.Scores ?? new List<(string score, string time)>();
-        var sortedScores = allScores.OrderByDescending(o => o.Item1).ToList();
+        var sortedScores = allScores.OrderByDescending(o => int.Parse(o.Item1)).ToList();
 
         int i = 1;
         foreach(var score in sortedScores)
@@ -252,6 +254,16 @@ public class MenuManager : MonoBehaviour
             s.transform.SetParent(ScoresContent.transform, false);
             waitingForOnlineScores = true;
         }
+        else if (Data.HasChanged)
+        {
+            Data.HasChanged = false;
+            Data.CloseOnlineScores = null;
+            Leaderboards.Instance.LoadRangeScores();
+
+            GameObject s = Instantiate(ScoresLoadingPrefab);
+            s.transform.SetParent(ScoresContent.transform, false);
+            waitingForOnlineScores = true;
+        }
         else
         {
             Debug.Log("Online Scores Not Empty");
@@ -266,6 +278,8 @@ public class MenuManager : MonoBehaviour
                 s.transform.SetParent(ScoresContent.transform, false);
                 s.transform.GetChild(0).GetComponent<TMP_Text>().text = score.Item1;
                 s.transform.GetChild(1).GetComponent<TMP_Text>().text = i + ". SCORE: " + score.Item2;
+                Debug.Log($"Comparing {score.Item1} to {Leaderboards.Instance.Username}");
+                if (score.Item1 == Leaderboards.Instance.Username) { s.GetComponent<Image>().color = PlayerScoreColor; }
                 i++;
             }
         }
@@ -284,6 +298,16 @@ public class MenuManager : MonoBehaviour
             s.transform.SetParent(ScoresContent.transform, false);
             waitingForBestScores = true;
         }
+        else if (Data.HasChanged)
+        {
+            Data.HasChanged = false;
+            Data.BestOnlineScores = null;
+            Leaderboards.Instance.LoadTopScores();
+
+            GameObject s = Instantiate(ScoresLoadingPrefab);
+            s.transform.SetParent(ScoresContent.transform, false);
+            waitingForBestScores = true;
+        }
         else
         {
             List<(string, double)> bestScores = Data.BestOnlineScores;
@@ -296,6 +320,7 @@ public class MenuManager : MonoBehaviour
                 s.transform.SetParent(ScoresContent.transform, false);
                 s.transform.GetChild(0).GetComponent<TMP_Text>().text = score.Item1;
                 s.transform.GetChild(1).GetComponent<TMP_Text>().text = i + ". SCORE: " + score.Item2;
+                if (score.Item1 == Leaderboards.Instance.Username) { s.GetComponent<Image>().color = PlayerScoreColor; }
                 i++;
             }
         }
