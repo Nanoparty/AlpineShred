@@ -24,6 +24,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] GameObject ScoresMenu;
     [SerializeField] GameObject ScoresContent;
+    [SerializeField] Button LocalButton;
+    [SerializeField] Button OnlineButton;
+    [SerializeField] Button BestButton;
     [SerializeField] Button CloseButton;
 
     [SerializeField] Camera MainCamera;
@@ -32,6 +35,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera ScoresCamera;
 
     [SerializeField] GameObject ScorePrefab;
+    [SerializeField] GameObject OnlineScorePrefab;
+    [SerializeField] GameObject ScoresLoadingPrefab;
+
+    private bool waitingForOnlineScores = false;
+    private bool waitingForBestScores = false;
 
     private void Awake()
     {
@@ -81,7 +89,7 @@ public class MenuManager : MonoBehaviour
             ScoresCamera.gameObject.SetActive(true);
             MenuCamera.gameObject.SetActive(false);
 
-            PopulateScores();
+            PopulateLocalScores();
         });
 
         QuitButton.onClick.AddListener(() =>
@@ -142,6 +150,33 @@ public class MenuManager : MonoBehaviour
             MainMenu.SetActive(true);
         });
 
+        LocalButton.onClick.AddListener(PopulateLocalScores);
+
+        OnlineButton.onClick.AddListener(PopulateOnlineScores);
+
+        BestButton.onClick.AddListener(PopulateBestScores);
+
+    }
+
+    private void Update()
+    {
+        if (waitingForOnlineScores)
+        {
+            if (Data.CloseOnlineScores != null)
+            {
+                waitingForOnlineScores = false;
+                PopulateOnlineScores();
+            }
+        }
+
+        if (waitingForBestScores)
+        {
+            if (Data.BestOnlineScores != null)
+            {
+                waitingForBestScores = false;
+                PopulateBestScores();
+            }
+        }
     }
 
     private void SetOptionsValues()
@@ -162,8 +197,18 @@ public class MenuManager : MonoBehaviour
         Data.SavePrefs();
     }
 
-    private void PopulateScores()
+    private void DestroyAllChildren(GameObject o)
     {
+        foreach (Transform child in o.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void PopulateLocalScores()
+    {
+        DestroyAllChildren(ScoresContent);
+
         List<(string, string)> allScores = Data.Scores ?? new List<(string score, string time)>();
         var sortedScores = allScores.OrderByDescending(o => o.Item1).ToList();
 
@@ -172,9 +217,69 @@ public class MenuManager : MonoBehaviour
         {
             GameObject s = Instantiate(ScorePrefab);
             s.transform.SetParent(ScoresContent.transform, false);
-            s.GetComponentInChildren<TMP_Text>().text = i +  ": Score: " + score.Item1 + " ---  Time: " + score.Item2;
+            s.GetComponentInChildren<TMP_Text>().text = i +  ". Score: " + score.Item1 + " ---  Time: " + score.Item2;
             i++;
         }
         
+    }
+
+    private void PopulateOnlineScores()
+    {
+        Debug.Log("Populating Online Scores");
+        DestroyAllChildren(ScoresContent);
+
+        if (Data.CloseOnlineScores == null)
+        {
+            //Leaderboards.Instance.LoadRangeScores();
+
+            GameObject s = Instantiate(ScoresLoadingPrefab);
+            s.transform.SetParent(ScoresContent.transform, false);
+            waitingForOnlineScores = true;
+        }
+        else
+        {
+            List<(string, double)> onlineScores = Data.CloseOnlineScores;
+            var sortedScores = onlineScores.OrderByDescending(o => o.Item2).ToList();
+
+            int i = 1;
+            foreach (var score in sortedScores)
+            {
+                GameObject s = Instantiate(OnlineScorePrefab);
+                s.transform.SetParent(ScoresContent.transform, false);
+                s.transform.GetChild(0).GetComponent<TMP_Text>().text = score.Item1;
+                s.transform.GetChild(1).GetComponent<TMP_Text>().text = i + ". SCORE: " + score.Item2;
+                i++;
+            }
+        }
+        
+    }
+
+    private void PopulateBestScores()
+    {
+        DestroyAllChildren(ScoresContent);
+
+        if (Data.CloseOnlineScores == null)
+        {
+            //Leaderboards.Instance.LoadTopScores();
+
+            GameObject s = Instantiate(ScoresLoadingPrefab);
+            s.transform.SetParent(ScoresContent.transform, false);
+            waitingForBestScores = true;
+        }
+        else
+        {
+            List<(string, double)> bestScores = Data.BestOnlineScores;
+            var sortedScores = bestScores.OrderByDescending(o => o.Item2).ToList();
+
+            int i = 1;
+            foreach (var score in sortedScores)
+            {
+                GameObject s = Instantiate(OnlineScorePrefab);
+                s.transform.SetParent(ScoresContent.transform, false);
+                s.transform.GetChild(0).GetComponent<TMP_Text>().text = score.Item1;
+                s.transform.GetChild(1).GetComponent<TMP_Text>().text = i + ". SCORE: " + score.Item2;
+                i++;
+            }
+        }
     }
 }

@@ -12,6 +12,10 @@ public static class Data
     public static float SoundVolume = 0.5f;
 
     public static List<(string score, string time)> Scores;
+    public static (string score, string time) TopScore;
+
+    public static List<(string, double)> CloseOnlineScores;
+    public static List<(string, double)> BestOnlineScores;
 
     public static void LoadPrefs()
     {

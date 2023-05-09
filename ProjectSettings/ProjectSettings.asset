@@ -811,11 +811,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: f430ea68-06ca-4119-9917-289b75c425f5
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: AlpineShred
+  organizationId: nathan-foote
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
