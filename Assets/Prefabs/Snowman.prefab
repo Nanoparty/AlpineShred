@@ -123,6 +123,7 @@ MonoBehaviour:
   XCollisionForce: 500
   YCollisionForce: 500
   ZCollisionForce: 100
+  Explosion: {fileID: 2831547091563616464, guid: 8b62b67e93b6a014aaf0d022d37b16af, type: 3}
 --- !u!54 &1557181727513670552
 Rigidbody:
   m_ObjectHideFlags: 0

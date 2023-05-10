@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] public Vector2 HorizontalLimits;
 
+
     public TMP_Text ScoreText;
     public TMP_Text HealthText;
 
