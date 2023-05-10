@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleSpawner : MonoBehaviour
+public class PickupSpawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> Obstacles;
-    [SerializeField] List<GameObject> SpecialObstacles;
-
-    [SerializeField] float SpecialObstacleFrequency;
+    [SerializeField] GameObject Star;
+    [SerializeField] GameObject Health;
 
     [SerializeField] public float SpawnFrequency;
-    public float SpeedIncrease;
-
-    [SerializeField] Transform ObstacleContainer;
+    [SerializeField] public float HealthFrequency;
 
     private Player player;
 
@@ -37,28 +33,25 @@ public class ObstacleSpawner : MonoBehaviour
 
     private IEnumerator SpawnRandom()
     {
-        if (Obstacles.Count == 0) Debug.Log("NO OBSTACLES");
-
         GameObject selected = null;
 
         int ran = Random.Range(0, 100);
-        if (ran < SpecialObstacleFrequency)
+        if (ran < HealthFrequency)
         {
-            selected = SpecialObstacles[Random.Range(0, SpecialObstacles.Count)];
+            selected = Health;
         }
         else
         {
-            selected = Obstacles[Random.Range(0, Obstacles.Count)];
+            selected = Star;
         }
 
         if (selected == null) yield return null;
 
         GameObject o = Instantiate(selected, transform.position, Quaternion.identity);
         float width = GetComponent<MeshRenderer>().bounds.size.x;
-        //Debug.Log("Width:" + width);
         Vector3 spawnPos = new Vector3(Random.Range(player.HorizontalLimits.x - 0.5f, player.HorizontalLimits.y + 0.5f), transform.position.y, transform.position.z);
+
         o.transform.position = spawnPos;
-        o.transform.SetParent(ObstacleContainer, true);
 
         yield return new WaitForSeconds(SpawnFrequency);
         _canSpawn = true;

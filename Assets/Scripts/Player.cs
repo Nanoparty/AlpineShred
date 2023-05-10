@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] public Vector2 HorizontalLimits;
 
+    public float pitchAccel = 0;
+    public float rollAccel = 0;
+    public Vector3 updateRotation;
+
+    public float rotationReturnSpeed = .1f;
 
     public TMP_Text ScoreText;
     public TMP_Text HealthText;
@@ -82,7 +87,7 @@ public class Player : MonoBehaviour
 
         Vector3 updatePosition = transform.position;
         Vector3 updateVelocity = rb.velocity;
-        Vector3 updateRotation = transform.Find("Model").transform.rotation.eulerAngles;
+        updateRotation = transform.Find("Model").transform.rotation.eulerAngles;
 
         if (updateRotation.y > 180) updateRotation.y = -(360 - updateRotation.y);
         if (updateRotation.z > 180) updateRotation.z = -(360 - updateRotation.z);
@@ -90,15 +95,29 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) {
             //Move Left
             updateVelocity.x -= speed * Time.deltaTime;
-            updateRotation.y += pitchSpeed * Time.deltaTime;
-            updateRotation.z += rollSpeed * Time.deltaTime;
+
+            if (pitchAccel < 0) pitchAccel = 0;
+            if (rollAccel < 0) rollAccel = 0;
+
+            pitchAccel -= pitchSpeed * Time.deltaTime;
+            rollAccel -= rollSpeed * Time.deltaTime;
+
+            //updateRotation.y += pitchAccel;
+            //updateRotation.z += rollAccel;
         }
         if (Input.GetKey(KeyCode.D))
         {
             //Move Right
             updateVelocity.x += speed * Time.deltaTime;
-            updateRotation.y += -pitchSpeed * Time.deltaTime;
-            updateRotation.z += -rollSpeed * Time.deltaTime;
+
+            if (pitchAccel > 0) pitchAccel = 0;
+            if (rollAccel > 0) rollAccel = 0;
+
+            pitchAccel += pitchSpeed * Time.deltaTime;
+            rollAccel += rollSpeed * Time.deltaTime;
+
+            //updateRotation.y += pitchAccel;
+            //updateRotation.z += rollAccel;
         }
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) 
         {
@@ -106,7 +125,15 @@ public class Player : MonoBehaviour
             if (updateRotation.y > 0) updateRotation.y -= Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
             if (updateRotation.z > 0) updateRotation.z -= Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
             if (updateRotation.z < 0) updateRotation.z += Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
+
+            if (pitchAccel > 0) pitchAccel -= Mathf.Min(Mathf.Abs(pitchAccel - 0), returnSpeed);
+            if (rollAccel > 0) rollAccel -= Mathf.Min(Mathf.Abs(rollAccel - 0), returnSpeed);
+            if (pitchAccel < 0) pitchAccel += Mathf.Min(Mathf.Abs(pitchAccel - 0), returnSpeed);
+            if (rollAccel < 0) rollAccel += Mathf.Min(Mathf.Abs(rollAccel - 0), returnSpeed);
         }
+
+        updateRotation.y += pitchAccel;
+        updateRotation.z += rollAccel;
 
         //Restrict Movement Beyond Limits
         if (updatePosition.x > HorizontalLimits.y) updatePosition.x = HorizontalLimits.y;

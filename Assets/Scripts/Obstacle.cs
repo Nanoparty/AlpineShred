@@ -34,12 +34,14 @@ public class Obstacle : MonoBehaviour
 
         Vector3 updatePos = transform.position;
 
+        SetSpeed();
+
         updatePos.z += totalSpeed * Time.deltaTime;
 
         transform.position = updatePos;
     }
 
-    public void SetSpeed(float increase)
+    public void SetSpeed()
     {
         totalSpeed = speed + obstacleSpawner.SpeedIncrease;
     }
