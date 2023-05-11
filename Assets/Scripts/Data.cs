@@ -21,10 +21,20 @@ public static class Data
 
     public static void LoadPrefs()
     {
-        Music = PlayerPrefs.GetInt("Music") == 1;
-        MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
-        Sound = PlayerPrefs.GetInt("Sound") == 1;
-        SoundVolume = PlayerPrefs.GetFloat("SoundVolume");
+        if (PlayerPrefs.HasKey("Music"))
+        {
+            Music = PlayerPrefs.GetInt("Music") == 1;
+            MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
+            Sound = PlayerPrefs.GetInt("Sound") == 1;
+            SoundVolume = PlayerPrefs.GetFloat("SoundVolume");
+        }
+        else
+        {
+            Music = true;
+            Sound = true;
+            MusicVolume = 0.5f;
+            SoundVolume = 0.5f;
+        }
     }
 
     public static void SavePrefs()
