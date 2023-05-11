@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
         GameOverWindow.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         circleTransition = GameObject.FindGameObjectWithTag("Transition").GetComponent<CircleTransition>();
+
+        SoundManager.Instance.PlayIdle();
     }
 
     private void Update()

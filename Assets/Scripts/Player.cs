@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     private bool dead;
     private bool paused;
 
+    private bool maxRotation = false;
+    private bool minRotation = false;
+
     private Vector3 tempVel;
 
     private void Awake()
@@ -74,7 +77,16 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             gm.GameOver = true;
+
+            if (!dead)
+            {
+                SoundManager.Instance.PlayDeath();
+                SoundManager.Instance.StopIdle();
+            }
+
             dead = true;
+            minRotation = true;
+            maxRotation = true;
 
             rb.constraints = RigidbodyConstraints.None;
 
@@ -121,8 +133,16 @@ public class Player : MonoBehaviour
         }
         if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) 
         {
-            if (updateRotation.y < 0) updateRotation.y += Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
-            if (updateRotation.y > 0) updateRotation.y -= Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
+            if (updateRotation.y < 0)
+            {
+                updateRotation.y += Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
+                maxRotation = false;
+            }
+            if (updateRotation.y > 0)
+            {
+                updateRotation.y -= Mathf.Min(Mathf.Abs(updateRotation.y - 0), returnSpeed);
+                minRotation = false;
+            }
             if (updateRotation.z > 0) updateRotation.z -= Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
             if (updateRotation.z < 0) updateRotation.z += Mathf.Min(Mathf.Abs(updateRotation.z - 0), returnSpeed);
 
@@ -135,12 +155,31 @@ public class Player : MonoBehaviour
         updateRotation.y += pitchAccel;
         updateRotation.z += rollAccel;
 
+        if (updateRotation.y > 0) minRotation = false;
+        if (updateRotation.y < 0) maxRotation = false;
+
         //Restrict Movement Beyond Limits
         if (updatePosition.x > HorizontalLimits.y) updatePosition.x = HorizontalLimits.y;
         if (updatePosition.x < HorizontalLimits.x) updatePosition.x = HorizontalLimits.x;
 
-        if (updateRotation.y > maxPitch) updateRotation.y = maxPitch;
-        if (updateRotation.y < -maxPitch) updateRotation.y = -maxPitch;
+        if (updateRotation.y > maxPitch)
+        {
+            updateRotation.y = maxPitch;
+            if (!maxRotation)
+            {
+                SoundManager.Instance.PlayTurn();
+                maxRotation = true;
+            }
+        }
+        if (updateRotation.y < -maxPitch)
+        {
+            updateRotation.y = -maxPitch;
+            if (!minRotation)
+            {
+                SoundManager.Instance.PlayTurn();
+                minRotation = true;
+            }
+        }
 
         if (updateRotation.z > maxRoll) updateRotation.z = maxRoll;
         if (updateRotation.z < -maxRoll) updateRotation.z = -maxRoll;

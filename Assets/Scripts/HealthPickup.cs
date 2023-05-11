@@ -6,6 +6,7 @@ using UnityEngine;
 public class HealthPickup : MonoBehaviour
 {
     [SerializeField] public float speed = 5f;
+    [SerializeField] public GameObject PickupEffect;
 
     private float totalSpeed;
 
@@ -40,6 +41,8 @@ public class HealthPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.Instance.PlayHealth();
+            Instantiate(PickupEffect, transform.position, Quaternion.identity);
             other.GetComponent<Player>().health++;
             Destroy(gameObject);
         }

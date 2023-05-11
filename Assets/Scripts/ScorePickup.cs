@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScorePickup : MonoBehaviour
 {
     [SerializeField] public float speed = 5f;
+    [SerializeField] public GameObject PickupEffect;
 
     private float totalSpeed;
 
@@ -42,8 +43,10 @@ public class ScorePickup : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
+            Instantiate(PickupEffect, transform.position, Quaternion.identity);
+            SoundManager.Instance.PlayStar();
             GameManager gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-            other.GetComponent<Player>().score += Mathf.Max(10, gm.totalSeconds);
+            other.GetComponent<Player>().score += 5;
             Destroy(gameObject);
         }
     }

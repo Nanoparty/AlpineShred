@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2725768756798168813}
   - component: {fileID: 2725768756798168812}
   - component: {fileID: 1694348859562468022}
+  - component: {fileID: 7035049206979965334}
   m_Layer: 0
   m_Name: ScorePickup
   m_TagString: Untagged
@@ -112,6 +113,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  PickupEffect: {fileID: 2831547091563616464, guid: 52246247c783013478e7d507f6c7b865, type: 3}
+--- !u!114 &7035049206979965334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2725768756798168819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6611e946f2d1e42cf897fc091b96e28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10
 --- !u!1001 &394055172
 PrefabInstance:
   m_ObjectHideFlags: 0

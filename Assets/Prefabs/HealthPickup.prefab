@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3065928069308842046}
   - component: {fileID: 3065928069308842045}
   - component: {fileID: 823141703443737220}
+  - component: {fileID: 4151405076070717477}
   m_Layer: 0
   m_Name: HealthPickup
   m_TagString: Untagged
@@ -112,6 +113,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  PickupEffect: {fileID: 2831547091563616464, guid: 7b9e41771d5095b4f81930d65d86d139, type: 3}
+--- !u!114 &4151405076070717477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3065928069308842044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6611e946f2d1e42cf897fc091b96e28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10
 --- !u!1001 &1279361437
 PrefabInstance:
   m_ObjectHideFlags: 0

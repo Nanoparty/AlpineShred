@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
 
     AudioSource musicSource;
     AudioSource soundSource;
+    AudioSource snowboardingSource;
 
     public AudioClip menuMusic;
     public AudioClip gameMusic;
@@ -15,6 +16,11 @@ public class SoundManager : MonoBehaviour
     public AudioClip click;
     public AudioClip whoosh;
     public AudioClip impact;
+    public AudioClip health;
+    public AudioClip star;
+    public AudioClip death;
+    public AudioClip idle;
+    public AudioClip turn;
 
     private void Awake()
     {
@@ -30,9 +36,11 @@ public class SoundManager : MonoBehaviour
 
         musicSource = GetComponent<AudioSource>();
         soundSource = transform.GetChild(0).GetComponent<AudioSource>();
+        snowboardingSource = transform.GetChild(1).GetComponent<AudioSource>();
 
         musicSource.volume = Data.MusicVolume;
         soundSource.volume = Data.SoundVolume;
+        snowboardingSource.volume = Data.SoundVolume;
     }
 
     public void UpdateMusicVolume()
@@ -43,6 +51,7 @@ public class SoundManager : MonoBehaviour
     public void UpdateSoundVolume()
     {
         soundSource.volume = Data.SoundVolume;
+        snowboardingSource.volume = Data.SoundVolume;
     }
 
     public void UpdateMusicVolume(float v)
@@ -53,6 +62,7 @@ public class SoundManager : MonoBehaviour
     public void UpdateSoundVolume(float v)
     {
         soundSource.volume = v;
+        snowboardingSource.volume = v;
     }
 
     public void UpdatePlaying()
@@ -106,6 +116,38 @@ public class SoundManager : MonoBehaviour
     {
         if (!Data.Sound) return;
         soundSource.PlayOneShot(impact, 0.5f);
+    }
+    public void PlayHealth()
+    {
+        if (!Data.Sound) return;
+        soundSource.PlayOneShot(health);
+    }
+    public void PlayStar()
+    {
+        if (!Data.Sound) return;
+        soundSource.PlayOneShot(star);
+    }
+    public void PlayDeath()
+    {
+        if (!Data.Sound) return;
+        soundSource.PlayOneShot(death);
+    }
+    public void PlayTurn()
+    {
+        if (!Data.Sound) return;
+        soundSource.PlayOneShot(turn, 0.1f);
+    }
+    public void PlayIdle()
+    {
+        if (!Data.Sound) return;
+        snowboardingSource.loop = true;
+        snowboardingSource.clip = idle;
+        snowboardingSource.volume = snowboardingSource.volume * 0.2f;
+        snowboardingSource.Play();
+    }
+    public void StopIdle()
+    {
+        snowboardingSource.Stop();
     }
 
 }
