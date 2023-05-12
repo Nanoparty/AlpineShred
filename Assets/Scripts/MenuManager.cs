@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject MainMenu;
     [SerializeField] Button PlayButton;
     [SerializeField] Button OptionsButton;
+    [SerializeField] Button CreditsButton;
     [SerializeField] Button ScoresButton;
     [SerializeField] Button QuitButton;
 
@@ -29,10 +30,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Button BestButton;
     [SerializeField] Button CloseButton;
 
+    [SerializeField] GameObject CreditsMenu;
+    [SerializeField] Button CreditsBackButton;
+
     [SerializeField] Camera MainCamera;
     [SerializeField] CinemachineVirtualCamera MenuCamera;
     [SerializeField] CinemachineVirtualCamera OptionsCamera;
     [SerializeField] CinemachineVirtualCamera ScoresCamera;
+    [SerializeField] CinemachineVirtualCamera CreditsCamera;
 
     [SerializeField] GameObject ScorePrefab;
     [SerializeField] GameObject OnlineScorePrefab;
@@ -58,9 +63,11 @@ public class MenuManager : MonoBehaviour
 
         OptionsCamera.gameObject.SetActive(false);
         ScoresCamera.gameObject.SetActive(false);
+        CreditsCamera.gameObject.SetActive(false);
 
         OptionsMenu.SetActive(false);
         ScoresMenu.SetActive(false);
+        CreditsMenu.SetActive(false);
 
         PlayButton.onClick.AddListener(() =>
         {
@@ -79,6 +86,19 @@ public class MenuManager : MonoBehaviour
             MenuCamera.gameObject.SetActive(false);
 
             SetOptionsValues();
+        });
+
+        CreditsButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
+            MainMenu.SetActive(false);
+            CreditsMenu.SetActive(true);
+            CreditsCamera.gameObject.SetActive(true);
+            MenuCamera.gameObject.SetActive(false);
+
+            //SetOptionsValues();
         });
 
         ScoresButton.onClick.AddListener(() =>
@@ -168,6 +188,20 @@ public class MenuManager : MonoBehaviour
         {
             SoundManager.Instance.PlayClick();
             PopulateBestScores();
+        });
+
+        CreditsBackButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.UpdateMusicVolume();
+            SoundManager.Instance.UpdateSoundVolume();
+
+            SoundManager.Instance.PlayClick();
+            SoundManager.Instance.PlayWhoosh();
+
+            MenuCamera.gameObject.SetActive(true);
+            CreditsCamera.gameObject.SetActive(false);
+            CreditsMenu.SetActive(false);
+            MainMenu.SetActive(true);
         });
 
     }
