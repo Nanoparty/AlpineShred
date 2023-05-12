@@ -10467,7 +10467,7 @@ MonoBehaviour:
   MenuCamera: {fileID: 77190972}
   OptionsCamera: {fileID: 1967135332}
   ScoresCamera: {fileID: 459102007}
-  CreditsCamera: {fileID: 0}
+  CreditsCamera: {fileID: 1803672406}
   ScorePrefab: {fileID: 3247539034184773880, guid: cc83a9e41534202409cf86f3069ed0d3, type: 3}
   OnlineScorePrefab: {fileID: 5117228356664022895, guid: d4cca83f718a9d04f8384b56c86e6fd8, type: 3}
   ScoresLoadingPrefab: {fileID: 7801050655481799918, guid: a796f5fc72a4dae42b233d717103dd14, type: 3}
