@@ -1,5 +1,9 @@
 # AlpineShred
-An arcade game about skiing and snowboarding down a snowy mountain.
+An arcade game about snowboarding down a snowy mountain.
+
+<p align="center">
+  <img src="Screenshots/screenshot1.png" />
+</p>
 
 ### Dependencies
 This project depends on the following paid assets:
