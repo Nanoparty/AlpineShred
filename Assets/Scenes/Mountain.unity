@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.709
+  m_ReflectionIntensity: 0.344
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.39644626, g: 0.57307225, b: 0.7025968, a: 0.709}
+  m_IndirectSpecularColor: {r: 0.19235192, g: 0.2780492, b: 0.34089324, a: 0.344}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2977,14 +2977,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.5023445, y: -0, z: -0, w: 0.86466765}
-  m_LocalPosition: {x: 0, y: 8.77, z: -4.76}
+  m_LocalRotation: {x: 0.4259362, y: -0, z: -0, w: 0.9047532}
+  m_LocalPosition: {x: 0, y: 6.1, z: -6.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 60.31, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50.42, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6156,6 +6156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransitionUI
       objectReference: {fileID: 0}
+    - target: {fileID: 339213123840284903, guid: b2e4d4c1d0b94dd419bd22c7b5f7db63, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e4d4c1d0b94dd419bd22c7b5f7db63, type: 3}
 --- !u!1 &1949855647
@@ -7169,6 +7173,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5140964912939430808, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5140964912939430810, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -7191,7 +7199,7 @@ PrefabInstance:
       objectReference: {fileID: 1571986070}
     - target: {fileID: 5140964912939430811, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
       propertyPath: rollSpeed
-      value: -1.5
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5140964912939430811, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
       propertyPath: HealthText
@@ -7199,7 +7207,7 @@ PrefabInstance:
       objectReference: {fileID: 1471915020}
     - target: {fileID: 5140964912939430811, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
       propertyPath: pitchSpeed
-      value: -1.5
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5140964912939430811, guid: 98b91a535e0719d4ebc0cb94c3a35664, type: 3}
       propertyPath: returnSpeed
