@@ -17,6 +17,8 @@ This project depends on the following paid assets:
 - [PolygonXmas](https://syntystore.com/products/polygon-xmas-pack?_pos=1&_sid=5b5567561&_ss=r)
 - [PolygonXmas](himom.com)
 
+Also requires Unity Gaming Services package for online leaderboards. Currently experimental and must be downloaded from UGS dashboard.
+
 
 [1]: https://assetstore.unity.com/packages/tools/utilities/easy-save-the-complete-save-data-serializer-system-768
 
