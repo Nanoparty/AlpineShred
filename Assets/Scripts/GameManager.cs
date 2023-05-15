@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
             paused = !paused;
             if (paused)
             {
+                SoundManager.Instance.StopIdle();
                 player.Pause();
                 PauseWindow.SetActive(true);
                 PauseWindow.transform.Find("Menu").GetComponent<Button>().onClick.AddListener(MenuListener);
@@ -125,12 +126,16 @@ public class GameManager : MonoBehaviour
 
     void MenuListener()
     {
+        SoundManager.Instance.StopIdle();
+
         circleTransition.StartMenuTransition();
         //SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
     void RetryListener()
     {
+        SoundManager.Instance.StopIdle();
+
         circleTransition.StartGameTransition();
         //SceneManager.LoadScene("Mountain", LoadSceneMode.Single);
     }

@@ -60,6 +60,8 @@ public class Player : MonoBehaviour
 
     public void Unpause()
     {
+        SoundManager.Instance.PlayIdle();
+
         paused = false;
         rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
         rb.velocity = tempVel;
