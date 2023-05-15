@@ -3,7 +3,7 @@ An arcade game about snowboarding down a snowy mountain.
 
 <p align="center">
   <img src="Screenshots/screenshot2.png" />
-  <img src="Screenshots/screenshot3.png" />
+  <img src="Screenshots/screenshot4.png" />
 </p>
 
 ### Dependencies
