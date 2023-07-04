@@ -1,4 +1,7 @@
 # AlpineShred
+
+![version](https://img.shields.io/badge/Version-1.0-green)
+
 An arcade game about snowboarding down a snowy mountain. Made in Unity. This project has had paid assets removed.
 
 ## Play Now
