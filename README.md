@@ -1,12 +1,26 @@
 # AlpineShred
-An arcade game about snowboarding down a snowy mountain.
+An arcade game about snowboarding down a snowy mountain. Made in Unity.
+
+## Play Now
+
+Game is available to download and play for free on Windows, Mac, and Linux at https://dispixel.itch.io/alpine-shred
 
 <p align="center">
   <img src="Screenshots/screenshot2.png" />
   <img src="Screenshots/screenshot4.png" />
 </p>
 
-### Dependencies
+## Features
+
+### Infinite Runner
+
+Test your reflexes as you snowboard down the mountain at increasingly fast speeds and dense forests. Watch out for obstacles and try to collect as many stars as you can!
+
+### Online Leaderboards
+
+Go head to head with people around the world to see who can rack up the highest score!
+
+## Dependencies
 This project depends on the following paid assets:
 
 - [Easy Save 3](https://assetstore.unity.com/packages/tools/utilities/easy-save-the-complete-save-data-serializer-system-768)
