@@ -1,5 +1,5 @@
 # AlpineShred
-An arcade game about snowboarding down a snowy mountain. Made in Unity.
+An arcade game about snowboarding down a snowy mountain. Made in Unity. This project has had paid assets removed.
 
 ## Play Now
 
